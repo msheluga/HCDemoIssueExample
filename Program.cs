@@ -24,6 +24,7 @@ builder.Services.AddCors(options =>
     });
 });
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddHttpLogging(o => { });
 
 builder.Services
     .AddGraphQLServer()
