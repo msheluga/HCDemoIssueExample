@@ -2,22 +2,17 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
 
-namespace AdventureWorks.Models;
+namespace Demo.Database.Models;
 
 /// <summary>
 /// Product images.
 /// </summary>
-[Table("ProductPhoto", Schema = "Production")]
 public partial class ProductPhoto
 {
     /// <summary>
     /// Primary key for ProductPhoto records.
     /// </summary>
-    [Key]
     public int ProductPhotoID { get; set; }
 
     /// <summary>
@@ -28,7 +23,6 @@ public partial class ProductPhoto
     /// <summary>
     /// Small image file name.
     /// </summary>
-    [StringLength(50)]
     public string ThumbnailPhotoFileName { get; set; }
 
     /// <summary>
@@ -39,15 +33,12 @@ public partial class ProductPhoto
     /// <summary>
     /// Large image file name.
     /// </summary>
-    [StringLength(50)]
     public string LargePhotoFileName { get; set; }
 
     /// <summary>
     /// Date and time the record was last updated.
     /// </summary>
-    [Column(TypeName = "datetime")]
     public DateTime ModifiedDate { get; set; }
 
-    [InverseProperty("ProductPhoto")]
     public virtual ICollection<ProductProductPhoto> ProductProductPhotos { get; set; } = new List<ProductProductPhoto>();
 }

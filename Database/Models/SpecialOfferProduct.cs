@@ -2,31 +2,22 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
 
-namespace AdventureWorks.Models;
+namespace Demo.Database.Models;
 
 /// <summary>
 /// Cross-reference table mapping products to special offer discounts.
 /// </summary>
-[PrimaryKey("SpecialOfferID", "ProductID")]
-[Table("SpecialOfferProduct", Schema = "Sales")]
-[Index("rowguid", Name = "AK_SpecialOfferProduct_rowguid", IsUnique = true)]
-[Index("ProductID", Name = "IX_SpecialOfferProduct_ProductID")]
 public partial class SpecialOfferProduct
 {
     /// <summary>
     /// Primary key for SpecialOfferProduct records.
     /// </summary>
-    [Key]
     public int SpecialOfferID { get; set; }
 
     /// <summary>
     /// Product identification number. Foreign key to Product.ProductID.
     /// </summary>
-    [Key]
     public int ProductID { get; set; }
 
     /// <summary>
@@ -37,17 +28,11 @@ public partial class SpecialOfferProduct
     /// <summary>
     /// Date and time the record was last updated.
     /// </summary>
-    [Column(TypeName = "datetime")]
     public DateTime ModifiedDate { get; set; }
 
-    [ForeignKey("ProductID")]
-    [InverseProperty("SpecialOfferProducts")]
     public virtual Product Product { get; set; }
 
-    [InverseProperty("SpecialOfferProduct")]
     public virtual ICollection<SalesOrderDetail> SalesOrderDetails { get; set; } = new List<SalesOrderDetail>();
 
-    [ForeignKey("SpecialOfferID")]
-    [InverseProperty("SpecialOfferProducts")]
     public virtual SpecialOffer SpecialOffer { get; set; }
 }

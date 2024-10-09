@@ -1,7 +1,6 @@
-﻿using AdventureWorks;
-using AdventureWorks.Models;
+﻿using Demo.Database;
+using Demo.Database.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Net;
 
 namespace Demo
 {

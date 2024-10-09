@@ -2,37 +2,27 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
 
-namespace AdventureWorks.Models;
+namespace Demo.Database.Models;
 
 /// <summary>
 /// Individual products associated with a specific sales order. See SalesOrderHeader.
 /// </summary>
-[PrimaryKey("SalesOrderID", "SalesOrderDetailID")]
-[Table("SalesOrderDetail", Schema = "Sales")]
-[Index("rowguid", Name = "AK_SalesOrderDetail_rowguid", IsUnique = true)]
-[Index("ProductID", Name = "IX_SalesOrderDetail_ProductID")]
 public partial class SalesOrderDetail
 {
     /// <summary>
     /// Primary key. Foreign key to SalesOrderHeader.SalesOrderID.
     /// </summary>
-    [Key]
     public int SalesOrderID { get; set; }
 
     /// <summary>
     /// Primary key. One incremental unique number per product sold.
     /// </summary>
-    [Key]
     public int SalesOrderDetailID { get; set; }
 
     /// <summary>
     /// Shipment tracking number supplied by the shipper.
     /// </summary>
-    [StringLength(25)]
     public string CarrierTrackingNumber { get; set; }
 
     /// <summary>
@@ -53,19 +43,16 @@ public partial class SalesOrderDetail
     /// <summary>
     /// Selling price of a single product.
     /// </summary>
-    [Column(TypeName = "money")]
     public decimal UnitPrice { get; set; }
 
     /// <summary>
     /// Discount amount.
     /// </summary>
-    [Column(TypeName = "money")]
     public decimal UnitPriceDiscount { get; set; }
 
     /// <summary>
     /// Per product subtotal. Computed as UnitPrice * (1 - UnitPriceDiscount) * OrderQty.
     /// </summary>
-    [Column(TypeName = "numeric(38, 6)")]
     public decimal LineTotal { get; set; }
 
     /// <summary>
@@ -76,14 +63,9 @@ public partial class SalesOrderDetail
     /// <summary>
     /// Date and time the record was last updated.
     /// </summary>
-    [Column(TypeName = "datetime")]
     public DateTime ModifiedDate { get; set; }
 
-    [ForeignKey("SalesOrderID")]
-    [InverseProperty("SalesOrderDetails")]
     public virtual SalesOrderHeader SalesOrder { get; set; }
 
-    [ForeignKey("SpecialOfferID, ProductID")]
-    [InverseProperty("SalesOrderDetails")]
     public virtual SpecialOfferProduct SpecialOfferProduct { get; set; }
 }

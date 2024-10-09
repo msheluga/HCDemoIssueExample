@@ -2,23 +2,17 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
 
-namespace AdventureWorks.Models;
+namespace Demo.Database.Models;
 
 /// <summary>
 /// Sales representative current information.
 /// </summary>
-[Table("SalesPerson", Schema = "Sales")]
-[Index("rowguid", Name = "AK_SalesPerson_rowguid", IsUnique = true)]
 public partial class SalesPerson
 {
     /// <summary>
     /// Primary key for SalesPerson records. Foreign key to Employee.BusinessEntityID
     /// </summary>
-    [Key]
     public int BusinessEntityID { get; set; }
 
     /// <summary>
@@ -29,31 +23,26 @@ public partial class SalesPerson
     /// <summary>
     /// Projected yearly sales.
     /// </summary>
-    [Column(TypeName = "money")]
     public decimal? SalesQuota { get; set; }
 
     /// <summary>
     /// Bonus due if quota is met.
     /// </summary>
-    [Column(TypeName = "money")]
     public decimal Bonus { get; set; }
 
     /// <summary>
     /// Commision percent received per sale.
     /// </summary>
-    [Column(TypeName = "smallmoney")]
     public decimal CommissionPct { get; set; }
 
     /// <summary>
     /// Sales total year to date.
     /// </summary>
-    [Column(TypeName = "money")]
     public decimal SalesYTD { get; set; }
 
     /// <summary>
     /// Sales total of previous year.
     /// </summary>
-    [Column(TypeName = "money")]
     public decimal SalesLastYear { get; set; }
 
     /// <summary>
@@ -64,26 +53,17 @@ public partial class SalesPerson
     /// <summary>
     /// Date and time the record was last updated.
     /// </summary>
-    [Column(TypeName = "datetime")]
     public DateTime ModifiedDate { get; set; }
 
-    [ForeignKey("BusinessEntityID")]
-    [InverseProperty("SalesPerson")]
     public virtual Employee BusinessEntity { get; set; }
 
-    [InverseProperty("SalesPerson")]
     public virtual ICollection<SalesOrderHeader> SalesOrderHeaders { get; set; } = new List<SalesOrderHeader>();
 
-    [InverseProperty("BusinessEntity")]
     public virtual ICollection<SalesPersonQuotaHistory> SalesPersonQuotaHistories { get; set; } = new List<SalesPersonQuotaHistory>();
 
-    [InverseProperty("BusinessEntity")]
     public virtual ICollection<SalesTerritoryHistory> SalesTerritoryHistories { get; set; } = new List<SalesTerritoryHistory>();
 
-    [InverseProperty("SalesPerson")]
     public virtual ICollection<Store> Stores { get; set; } = new List<Store>();
 
-    [ForeignKey("TerritoryID")]
-    [InverseProperty("SalesPeople")]
     public virtual SalesTerritory Territory { get; set; }
 }

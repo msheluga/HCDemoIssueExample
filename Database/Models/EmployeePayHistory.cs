@@ -2,36 +2,27 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
 
-namespace AdventureWorks.Models;
+namespace Demo.Database.Models;
 
 /// <summary>
 /// Employee pay history.
 /// </summary>
-[PrimaryKey("BusinessEntityID", "RateChangeDate")]
-[Table("EmployeePayHistory", Schema = "HumanResources")]
 public partial class EmployeePayHistory
 {
     /// <summary>
     /// Employee identification number. Foreign key to Employee.BusinessEntityID.
     /// </summary>
-    [Key]
     public int BusinessEntityID { get; set; }
 
     /// <summary>
     /// Date the change in pay is effective
     /// </summary>
-    [Key]
-    [Column(TypeName = "datetime")]
     public DateTime RateChangeDate { get; set; }
 
     /// <summary>
     /// Salary hourly rate.
     /// </summary>
-    [Column(TypeName = "money")]
     public decimal Rate { get; set; }
 
     /// <summary>
@@ -42,10 +33,7 @@ public partial class EmployeePayHistory
     /// <summary>
     /// Date and time the record was last updated.
     /// </summary>
-    [Column(TypeName = "datetime")]
     public DateTime ModifiedDate { get; set; }
 
-    [ForeignKey("BusinessEntityID")]
-    [InverseProperty("EmployeePayHistories")]
     public virtual Employee BusinessEntity { get; set; }
 }

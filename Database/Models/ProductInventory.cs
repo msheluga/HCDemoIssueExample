@@ -2,36 +2,27 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
 
-namespace AdventureWorks.Models;
+namespace Demo.Database.Models;
 
 /// <summary>
 /// Product inventory information.
 /// </summary>
-[PrimaryKey("ProductID", "LocationID")]
-[Table("ProductInventory", Schema = "Production")]
 public partial class ProductInventory
 {
     /// <summary>
     /// Product identification number. Foreign key to Product.ProductID.
     /// </summary>
-    [Key]
     public int ProductID { get; set; }
 
     /// <summary>
     /// Inventory location identification number. Foreign key to Location.LocationID. 
     /// </summary>
-    [Key]
     public short LocationID { get; set; }
 
     /// <summary>
     /// Storage compartment within an inventory location.
     /// </summary>
-    [Required]
-    [StringLength(10)]
     public string Shelf { get; set; }
 
     /// <summary>
@@ -52,14 +43,9 @@ public partial class ProductInventory
     /// <summary>
     /// Date and time the record was last updated.
     /// </summary>
-    [Column(TypeName = "datetime")]
     public DateTime ModifiedDate { get; set; }
 
-    [ForeignKey("LocationID")]
-    [InverseProperty("ProductInventories")]
     public virtual Location Location { get; set; }
 
-    [ForeignKey("ProductID")]
-    [InverseProperty("ProductInventories")]
     public virtual Product Product { get; set; }
 }

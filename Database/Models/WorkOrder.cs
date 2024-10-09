@@ -2,24 +2,17 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
 
-namespace AdventureWorks.Models;
+namespace Demo.Database.Models;
 
 /// <summary>
 /// Manufacturing work orders.
 /// </summary>
-[Table("WorkOrder", Schema = "Production")]
-[Index("ProductID", Name = "IX_WorkOrder_ProductID")]
-[Index("ScrapReasonID", Name = "IX_WorkOrder_ScrapReasonID")]
 public partial class WorkOrder
 {
     /// <summary>
     /// Primary key for WorkOrder records.
     /// </summary>
-    [Key]
     public int WorkOrderID { get; set; }
 
     /// <summary>
@@ -45,19 +38,16 @@ public partial class WorkOrder
     /// <summary>
     /// Work order start date.
     /// </summary>
-    [Column(TypeName = "datetime")]
     public DateTime StartDate { get; set; }
 
     /// <summary>
     /// Work order end date.
     /// </summary>
-    [Column(TypeName = "datetime")]
     public DateTime? EndDate { get; set; }
 
     /// <summary>
     /// Work order due date.
     /// </summary>
-    [Column(TypeName = "datetime")]
     public DateTime DueDate { get; set; }
 
     /// <summary>
@@ -68,17 +58,11 @@ public partial class WorkOrder
     /// <summary>
     /// Date and time the record was last updated.
     /// </summary>
-    [Column(TypeName = "datetime")]
     public DateTime ModifiedDate { get; set; }
 
-    [ForeignKey("ProductID")]
-    [InverseProperty("WorkOrders")]
     public virtual Product Product { get; set; }
 
-    [ForeignKey("ScrapReasonID")]
-    [InverseProperty("WorkOrders")]
     public virtual ScrapReason ScrapReason { get; set; }
 
-    [InverseProperty("WorkOrder")]
     public virtual ICollection<WorkOrderRouting> WorkOrderRoutings { get; set; } = new List<WorkOrderRouting>();
 }
