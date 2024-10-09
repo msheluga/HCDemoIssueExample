@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Hotchocolate.AspNetCore" Version="13.9.14" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.10" />
   </ItemGroup>
 
 </Project>
