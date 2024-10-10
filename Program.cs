@@ -30,11 +30,17 @@ builder.Services
     .AddGraphQLServer()
     .AddAuthorization()
     .RegisterDbContext<AdventureWorks2022Context>(DbContextKind.Pooled)
+    .AddProjections()
+    .AddFiltering()
+    .AddInstrumentation()                            
+    .AddSorting()
     .AddQueryType<Query>();
 
 var app = builder.Build();
 
 app.UseHttpLogging();
+app.UseRouting();
+app.UseHttpsRedirection();
 
 if (app.Environment.IsDevelopment())
 {

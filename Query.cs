@@ -12,6 +12,10 @@ namespace Demo
             _dbContextFactory = factory;
         }
 
+        [UsePaging]
+        [UseProjection]
+        [UseFiltering]
+        [UseSorting]
 
         public async Task<IQueryable<Address>> getAddress()
         {
