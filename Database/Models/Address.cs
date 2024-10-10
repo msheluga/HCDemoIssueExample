@@ -19,6 +19,7 @@ public partial class Address
     /// Primary key for Address records.
     /// </summary>
     [Key]
+    [CustomAuthorize("AdventureWorks2022.Person.Address.AddressID.Read")]
     public int AddressID { get; set; }
 
     /// <summary>
@@ -26,12 +27,14 @@ public partial class Address
     /// </summary>
     [Required]
     [StringLength(60)]
+    [CustomAuthorize("AdventureWorks2022.Person.Address.AddressLine1.Read")]
     public string AddressLine1 { get; set; }
 
     /// <summary>
     /// Second street address line.
     /// </summary>
     [StringLength(60)]
+    [CustomAuthorize("AdventureWorks2022.Person.Address.AddressLine2.Read")]
     public string AddressLine2 { get; set; }
 
     /// <summary>
@@ -39,11 +42,13 @@ public partial class Address
     /// </summary>
     [Required]
     [StringLength(30)]
+    [CustomAuthorize("AdventureWorks2022.Person.Address.City.Read")]
     public string City { get; set; }
 
     /// <summary>
     /// Unique identification number for the state or province. Foreign key to StateProvince table.
     /// </summary>
+    [CustomAuthorize("AdventureWorks2022.Person.Address.StateProvinceID.Read")]
     public int StateProvinceID { get; set; }
 
     /// <summary>
@@ -51,17 +56,20 @@ public partial class Address
     /// </summary>
     [Required]
     [StringLength(15)]
+    [CustomAuthorize("AdventureWorks2022.Person.Address.PostalCode.Read")]
     public string PostalCode { get; set; }
 
     /// <summary>
     /// ROWGUIDCOL number uniquely identifying the record. Used to support a merge replication sample.
     /// </summary>
+    [CustomAuthorize("AdventureWorks2022.Person.Address.rowguid.Read")]
     public Guid rowguid { get; set; }
 
     /// <summary>
     /// Date and time the record was last updated.
     /// </summary>
     [Column(TypeName = "datetime")]
+    [CustomAuthorize("AdventureWorks2022.Person.Address.NodifiedDate.Read")]
     public DateTime ModifiedDate { get; set; }
 
     [InverseProperty("Address")]

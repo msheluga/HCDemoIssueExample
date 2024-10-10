@@ -1,7 +1,11 @@
 using Demo;
 using Demo.Database;
 using HotChocolate.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,6 +29,23 @@ builder.Services.AddCors(options =>
 });
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddHttpLogging(o => { });
+builder.Services.AddSingleton<IAuthorizationHandler, ReadHandler>();
+builder.Services.AddSingleton<IAuthorizationPolicyProvider, CustomAuthorizationProvider>();
+
+var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("MySuperSecretKey"));
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters =
+            new TokenValidationParameters
+            {
+                ValidIssuer = "https://auth.chillicream.com",
+                ValidAudience = "https://graphql.chillicream.com",
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = signingKey,
+            };
+    });
+builder.Services.AddAuthorization();
 
 builder.Services
     .AddGraphQLServer()
@@ -34,6 +55,7 @@ builder.Services
     .AddFiltering()
     .AddInstrumentation()                            
     .AddSorting()
+    .AddHttpRequestInterceptor<HttpRequestInterceptor>()
     .AddQueryType<Query>();
 
 var app = builder.Build();

@@ -41,8 +41,12 @@ namespace Demo
                 var schemaName = GetSchemaName(requirement);
                 var tableName = GetTableName(requirement);
                 var fieldName = GetFieldName(requirement);
-                if (principal.FindFirst(c=> c.Type != null &&
-                c.Type.Equals($"{databaseName}.{schemaName}.{tableName}.{operation}", StringComparison.OrdinalIgnoreCase)) != null)
+               
+                var claim = (principal.FindFirst(c => c.Type != null &&
+                c.Type.Equals($"{databaseName}.{schemaName}.{tableName}.{operation}", StringComparison.OrdinalIgnoreCase)));
+
+                if (claim != null 
+                    && claim.Value.Contains(fieldName))
                 {
                     return true;
                 }

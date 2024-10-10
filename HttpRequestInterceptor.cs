@@ -10,7 +10,7 @@ using System.Security.Claims;
 
 namespace Demo
 {
-    public class HttpRequestIntercepter: DefaultHttpRequestInterceptor
+    public class HttpRequestInterceptor : DefaultHttpRequestInterceptor
     {
         private readonly IPolicyEvaluator _policyEvaluator;
         private readonly IAuthorizationPolicyProvider _authorizationPolicyProvider;
@@ -19,7 +19,7 @@ namespace Demo
 
 
 
-        public HttpRequestIntercepter(
+        public HttpRequestInterceptor(
             IHttpContextAccessor httpContextAccessor,
             IPolicyEvaluator policyEvaluator,
             IAuthorizationPolicyProvider authorizationPolicyProvider,
@@ -39,7 +39,7 @@ namespace Demo
             if (context.Request.Headers.TryGetValue("Authorization", out var authValue))
             {
                 //validate the claim against the value
-                if (AuthenticationHeaderValue.Parse(authValue) is { Parameter: { } parameters })
+                if (!String.IsNullOrEmpty(authValue.ToString()))
                 {
                     PopulateClaims(context, requestExecutor, requestBuilder);
                 }
@@ -70,7 +70,7 @@ namespace Demo
             var claims = new List<Claim>()
             {
                 new Claim (ClaimTypes.Name,appId.ToString()),               
-                new Claim("AdventureWorks.Person.Address.Read", "AddressID, City, PostalCode, rowguid")               
+                new Claim("AdventureWorks2022.Person.Address.Read", "AddressID, City, PostalCode, rowguid")               
             };
             principal.AddClaims(claims);            
         }
