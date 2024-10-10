@@ -63,6 +63,8 @@ var app = builder.Build();
 app.UseHttpLogging();
 app.UseRouting();
 app.UseHttpsRedirection();
+app.UseAuthentication();
+app.UseAuthorization();
 
 if (app.Environment.IsDevelopment())
 {

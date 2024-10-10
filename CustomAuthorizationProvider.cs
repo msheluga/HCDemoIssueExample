@@ -9,7 +9,12 @@ namespace Demo
 
         public override async Task<AuthorizationPolicy> GetPolicyAsync(string policyName)
         {
-             
+            if (!policyName.StartsWith("AdventureWorks2022"))
+            {
+                return await base.GetPolicyAsync(policyName);
+            }
+
+
             var requirement = new ReadRequirement(policyName);
             return new AuthorizationPolicyBuilder().AddRequirements(requirement).Build();
         }
